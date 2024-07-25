@@ -47,4 +47,11 @@ public class RepoControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(2)));
   }
+
+  @Test
+  void testGetReposInvalidRequest() throws Exception {
+    mockMvc.perform(get("/repos")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest());
+  }
 }
