@@ -22,7 +22,7 @@ Product consists of 1 service. It uses REST API GitHub under the hood.
 
 ### Setting up ###
 
-git clone 
+git clone https://github.com/SashaKashi/atipera.git
 
 ### Other guidelines ###
 
