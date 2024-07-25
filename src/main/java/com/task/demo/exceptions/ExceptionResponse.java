@@ -15,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(Include.NON_EMPTY)
-public class ErrorResponse {
+public class ExceptionResponse {
 
   int status;
   String message;
