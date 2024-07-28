@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class RepoServiceImpl implements RepoService {
 
-  public final RepoClient repoClient;
+  private final RepoClient repoClient;
 
   @Override
   public List<RepoResponseDto> getRepos(String username) {
-    List<RepoResponseDto> repos = repoClient.getRepos(username);
+    var repos = repoClient.getRepos(username);
     return repoClient.getBranches(repos);
   }
 }

@@ -49,14 +49,14 @@ public class GithubClientImpl implements RepoClient {
       log.error("Error in getRepos method with message " + e.getMessage());
       throw new JsonException(HttpStatusCode.valueOf(422), e.getMessage());
     }
-    for (JsonNode node : root) {
-      String fork = node.get("fork").asText();
+    root.forEach(node -> {
+      var fork = node.get("fork").asText();
       if (fork.equals("false")) {
-        String name = node.get("name").asText();
-        String login = node.get("owner").get("login").asText();
+        var name = node.get("name").asText();
+        var login = node.get("owner").get("login").asText();
         repos.add(new RepoResponseDto(name, login));
       }
-    }
+    });
     return repos;
   }
 
@@ -64,7 +64,7 @@ public class GithubClientImpl implements RepoClient {
   public List<RepoResponseDto> getBranches(List<RepoResponseDto> repos) {
     List<RepoResponseDto> result = new ArrayList<>();
     repos.forEach(repo -> {
-      ResponseEntity<String> response = restTemplate.exchange(
+      var response = restTemplate.exchange(
           githubProperties.getGetBranchesUrl().replace("username", repo.getLogin())
               .replace("reponame", repo.getName()), HttpMethod.GET,
           new HttpEntity<>(new HttpHeaders()), String.class);
@@ -77,12 +77,12 @@ public class GithubClientImpl implements RepoClient {
         log.error("Error in getBranches method with message " + e.getMessage());
         throw new JsonException(HttpStatusCode.valueOf(422), e.getMessage());
       }
-      for (JsonNode node : root) {
-        String name = node.get("name").asText();
-        String sha = node.get("commit").get("sha").asText();
+      root.forEach(node -> {
+        var name = node.get("name").asText();
+        var sha = node.get("commit").get("sha").asText();
         branches.add(new BranchResponseDto(name, sha));
-      }
-      RepoResponseDto newRepo = new RepoResponseDto(repo.getName(), repo.getLogin(), branches);
+      });
+      var newRepo = new RepoResponseDto(repo.getName(), repo.getLogin(), branches);
       result.add(newRepo);
     });
     return result;
